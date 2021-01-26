@@ -75,8 +75,11 @@ WSGI_APPLICATION = 'WildfireDetection.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'wildfireWebApp',
+        'USER': 'wildfiredb',
+        'PASSWORD': 'wildfireDBforSoftwareDevforA1!',
+        'HOST': '104.131.107.199'
     }
 }
 
