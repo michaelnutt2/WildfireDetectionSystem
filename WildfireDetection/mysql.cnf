@@ -1,6 +1,0 @@
-[client]
-host = 104.131.107.199
-database = wildfireWebApp
-user = wildfiredb
-password = wildfireDBforSoftwareDevforA1!
-default-character-set = uft8
