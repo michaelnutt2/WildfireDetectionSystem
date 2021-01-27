@@ -29,7 +29,7 @@ Run the following command from the root:
 
 ``` Python plauncher.py video  -in ../machinelearning/inputvideo/video.mp4 -out ../machinelearning/outputvideo/video.mp4 -model ../machinelearning/model-saves/Inception_based/best_trained_save.h5 ```
 
-The above command will take an input video and output a video with prediction and annoations.
+The above command will take an input video and output a video with prediction and annotations.
 
 ### Train
 If you want to train model with any other dataset:
