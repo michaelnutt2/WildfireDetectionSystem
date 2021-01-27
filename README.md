@@ -2,7 +2,7 @@
 Machine learning wildfire detection web app using Django for front end and PyTorch as the model generator.
 
 ## Machine learning Module
-The folder contians a working machine learning project that is able to detect "fire", "no-fire" and "start-fire" in a mp4 video. I supplied the model with an input video (check: [Input Video](hhttps://github.com/AraibKarim/WildfireDetectionSystem/blob/main/machine%20learning/inputvideo/video.mp4) and it was able to detect fire and also, add annotation on the video. Output: [Output](https://github.com/AraibKarim/WildfireDetectionSystem/blob/main/machine%20learning/outputvideo/video.mp4)
+The folder contians a working machine learning project that is able to detect "fire", "no-fire" and "start-fire" in a mp4 video. I supplied the model with an input video [Input Video](hhttps://github.com/AraibKarim/WildfireDetectionSystem/blob/main/machine%20learning/inputvideo/video.mp4) and it was able to detect fire and also, add annotation on the video. Output: [Output](https://github.com/AraibKarim/WildfireDetectionSystem/blob/main/machine%20learning/outputvideo/video.mp4)
 
 ### Setup 
 
