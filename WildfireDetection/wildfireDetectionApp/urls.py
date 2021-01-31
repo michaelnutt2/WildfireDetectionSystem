@@ -7,6 +7,9 @@ from django.urls import path
 
 from . import views
 
+app_name = 'wildfireDetectionApp'
+
 urlpatterns = [
     path('', views.index, name='index'),
+    path('user_registration/', views.user_registration, name='registration'),
 ]
