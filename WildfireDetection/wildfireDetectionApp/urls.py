@@ -4,6 +4,7 @@
     and the home page with the map
 """
 from django.urls import path
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from . import views
 
@@ -11,4 +12,4 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('user_registration/', views.user_registration, name='registration'),
     path('confirmation/', views.confirmation, name='confirmation')
-]
+] + staticfiles_urlpatterns()
