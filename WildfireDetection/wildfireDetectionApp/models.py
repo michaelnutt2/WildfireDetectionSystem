@@ -15,3 +15,5 @@ class FireTracker(models.Model):
     camera_id = models.IntegerField(primary_key=False)
     fire_detected = models.BooleanField(default=False)
     live_feed = models.CharField(max_length=300)
+    latitude = models.DecimalField(max_digits=6, decimal_places=4)
+    longitude = models.DecimalField(max_digits=6, decimal_places=4)
