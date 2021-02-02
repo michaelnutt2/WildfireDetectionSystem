@@ -24,10 +24,10 @@ function initMap() {
             disableDefaultUI: true
         }
     );
-    
-    for(var i = 0; i <= cameras.id.length; i++){
+    var cameras = JSON.parse(cameras);
+    for(var i = 0; i <= cameras.length; i++){
         marker = new google.maps.Marker({
-            position: {cameras[i].latitude, cameras[i].longitude},
+            position: new google.maps.LatLng(cameras[i].latitude, cameras[i].longitude),
             map
         })
         if(cameras[i].fire_detected){
@@ -35,9 +35,13 @@ function initMap() {
         } else{
             marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
         }
+        marker.setMap(map);
     }
-
+    
 }
+    
+
+
 
 
 $(function() {
