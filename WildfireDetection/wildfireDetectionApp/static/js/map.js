@@ -23,7 +23,10 @@ function initMap() {
             ],
             disableDefaultUI: true
         }
-    );
+    )
+};
+    
+function setMarkers() {
     var cameras = JSON.parse(cameras);
     for(var i = 0; i <= cameras.length; i++){
         marker = new google.maps.Marker({
@@ -37,10 +40,7 @@ function initMap() {
         }
         marker.setMap(map);
     }
-    
 }
-    
-
 
 
 
