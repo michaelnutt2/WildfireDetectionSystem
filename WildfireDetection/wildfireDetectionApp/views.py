@@ -12,6 +12,7 @@ from .forms import UserRegistrationForm
 # Create your views here.
 def index(request):
     #cameras = serializers.serialize("json",FireTracker.objects.all().order_by('id'))
+    cameras = FireTracker.objects.all().order_by('id')
     return render(request, 'wildfireDetectionApp/index.html', {'cameras' : cameras})
 
 
