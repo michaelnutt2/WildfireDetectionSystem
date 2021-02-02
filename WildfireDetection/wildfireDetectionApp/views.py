@@ -2,14 +2,17 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 from django.template import loader
+from django.core import serializers
 
 from .models import User
+from .models import FireTracker
 from .forms import UserRegistrationForm
 
 
 # Create your views here.
 def index(request):
-    return render(request, 'wildfireDetectionApp/index.html')
+    #cameras = serializers.serialize("json",FireTracker.objects.all().order_by('id'))
+    return render(request, 'wildfireDetectionApp/index.html', {'cameras' : cameras})
 
 
 def user_registration(request):

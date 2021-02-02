@@ -23,7 +23,21 @@ function initMap() {
             ],
             disableDefaultUI: true
         }
-    );}
+    );
+    
+    for(var i = 0; i <= cameras.id.length; i++){
+        marker = new google.maps.Marker({
+            position: {cameras[i].latitude, cameras[i].longitude},
+            map
+        })
+        if(cameras[i].fire_detected){
+            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+        } else{
+            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+        }
+    }
+
+}
 
 
 $(function() {
