@@ -15,8 +15,58 @@
             }
         </style>
         <script>
-            var cameras = {{cameras}};
-            setMarkers();
+            var map;
+            var discoPark = {lat: 33.2539, lng: -97.1528}
+
+            function initMap() {
+                map = new google.maps.Map(
+                    document.getElementById('map'), {
+                        center: discoPark,
+                        zoom: 16,
+                        mapTypeId: 'terrain',
+                        styles: [
+                            {
+                                "featureType": "poi",
+                                "elementType": "all",
+                                "stylers": [
+                                    { "visibility": "off"}
+                                ]
+                            }
+                        ],
+                        disableDefaultUI: true
+                    }
+                )
+            }
+
+            function getMarkers() {
+                $.ajax({
+                    type : "POST",
+                    url : 'ajax/markers/',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success : function(res) {
+                        console.log("Got Markers")
+                    }
+                });
+               var len = res.length;
+               for(var i = 0; i < len; i++) {
+                   if(markerList.hasOwnProperty(res[i].id)) {
+                       markerList[res[i].id].setPosition(new google.maps.LatLng(res[i].latitude, res[i].longitude));
+                   } else {
+                       var marker = new google.maps.Marker({
+                           position: new google.maps.LatLng(res[i].latitude, res[i].longitude),
+                            map: map
+                       });
+                       markerList[res[i].id] = marker;
+       }
+   }
+   window.setTimeout(getMarkers, INTERVAL)
+            }
+            window.onload = function() {
+                initMap();
+                getMarkers();
+            }
         </script>
 
     </head>

@@ -1,12 +1,15 @@
 window.onload = function() {
     initMap();
+    getMarkers();
 };
 
 var map;
+var discoPark = {lat: 33.2539, lng: -97.1528};
+var INTERVAL = 10000;
+var markerList = {};
 
 
 function initMap() {
-    var discoPark = {lat: 33.2539, lng: -97.1528};
     map = new google.maps.Map(
         document.getElementById('map'), {
             center: discoPark,
@@ -25,23 +28,70 @@ function initMap() {
         }
     )
 };
-    
-function setMarkers() {
-    var cameras = JSON.parse(cameras);
-    for(var i = 0; i <= cameras.length; i++){
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(cameras[i].latitude, cameras[i].longitude),
-            map
-        })
-        if(cameras[i].fire_detected){
-            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
-        } else{
-            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-        }
-        marker.setMap(map);
-    }
-}
 
+function getMarkers() {
+    $.ajax({
+        type : "POST",
+        url : 'wildfireDetectionApp/ajax/markers/',
+        data : {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+        success : function(data) {
+            console.log("Got markers")
+        }
+    });
+   len = res.length;
+   for(var i = 0; i < len; i++) {
+       if(markerList.hasOwnProperty(res[i].id)) {
+           markerList[res[i].id].setPosition(new google.maps.LatLng(res[i].latitude, res[i].longitude));
+       } else {
+           var marker = new google.maps.Marker({
+               position: new google.maps.LatLng(res[i].latitude, res[i].longitude),
+                map: map
+           });
+           markerList[res[i].id] = marker;
+       }
+   }
+   window.setTimeout(getMarkers, INTERVAL)
+};
+
+
+// $(document).ready(function() {
+//    map = new google.maps.Map(
+//        document.getElementById('map'), {
+//            center: discoPark,
+//            zoom: 13,
+//            mapTypeId: 'terrain',
+//            styles: [
+//                {
+//                    "featureType": "poi",
+//                    "elementType": "all",
+//                    "stylers": [
+//                        { "visibility": "off" }
+//                    ]
+//                }
+//            ],
+//            disableDefaultUI: true
+//        }
+//    )
+//
+//    function getMarkers() {
+//        $.get('/markers', {}, function(res, resp) {
+//            for(var i = 0; len=res.length; i < len) {
+//                if(markerList.hasOwnProperty(res[i].id)) {
+//                    markerList[res[i].id].setPosition(new google.maps.LatLng(res[i].latitude, res[i].longitude));
+//                } else {
+//                    var marker = new google.maps.Marker({
+//                        position: new google.maps.LatLng(res[i].latitude, res[i].longitude),
+//                         map: map
+//                    });
+//                    markerList[res[i].id] = marker;
+//                }
+//            }
+//            window.setTimeout(getMarkers, INTERVAL)
+//        }, "json");
+//    }
+// });
 
 
 $(function() {
