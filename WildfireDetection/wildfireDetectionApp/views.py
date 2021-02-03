@@ -1,6 +1,8 @@
+import json
+
 from django.shortcuts import render
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.core import serializers
 
@@ -11,9 +13,7 @@ from .forms import UserRegistrationForm
 
 # Create your views here.
 def index(request):
-    #cameras = serializers.serialize("json",FireTracker.objects.all().order_by('id'))
-    cameras = FireTracker.objects.all().order_by('id')
-    return render(request, 'wildfireDetectionApp/index.html', {'cameras' : cameras})
+    return render(request, 'wildfireDetectionApp/index.html')
 
 
 def user_registration(request):
@@ -36,3 +36,19 @@ def user_registration(request):
 
 def confirmation(request):
     return render(request, 'wildfireDetectionApp/confirmation.html')
+
+
+def markers(request):
+    camera_list = FireTracker.objects.all().order_by('id')
+    cameras = []
+    for cam in camera_list:
+        cameras.append({
+            'id': cam.id,
+            'fire_detected': cam.fire_detected,
+            'latitude': float(cam.latitude),
+            'longitude': float(cam.longitude)
+        })
+
+    json_camera = json.dumps(cameras)
+
+    return JsonResponse({"success": True, 'cameras': json_camera})
