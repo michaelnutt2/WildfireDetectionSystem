@@ -43,12 +43,13 @@ def markers(request):
     cameras = []
     for cam in camera_list:
         cameras.append({
-            'id': cam.id,
+            'id': cam.camera_id,
             'fire_detected': cam.fire_detected,
             'latitude': float(cam.latitude),
             'longitude': float(cam.longitude)
         })
 
     json_camera = json.dumps(cameras)
+    print(json_camera)
 
     return JsonResponse({"success": True, 'cameras': json_camera})
