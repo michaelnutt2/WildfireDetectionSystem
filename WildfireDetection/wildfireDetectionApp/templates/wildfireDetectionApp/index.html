@@ -6,7 +6,7 @@
         <title>Wildfire Detection using AI</title>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcvinihrIS9FqJTr587Kcmy5zGzQHOJ5U&libraries=drawing,geometry"></script>
-        <script type="text/javascript" src="{% static 'js/map.js' %}"></script>
+{#        <script type="text/javascript" src="{% static 'js/map.js' %}"></script>#}
         <style type="text/css">
             /* Set the size of the div element that will show the map */
             #map {
@@ -15,8 +15,14 @@
             }
         </style>
         <script>
-            var map;
-            var discoPark = {lat: 33.2539, lng: -97.1528}
+            window.onload = function() {
+                initMap();
+                getMarkers();
+            }
+            let map;
+            let discoPark = {lat: 33.2539, lng: -97.1528};
+            let markerList = {};
+            let interval = 10000;
 
             function initMap() {
                 map = new google.maps.Map(
@@ -37,36 +43,26 @@
                     }
                 )
             }
-
-            function getMarkers() {
+            function getMarkers(){
                 $.ajax({
-                    type : "POST",
-                    url : 'ajax/markers/',
-                    data: {
-                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    type: 'GET',
+                    url: "{% url 'markers' %}",
+                    success: function (response) {
+                        let cameras = JSON.parse(response.cameras)
+                        for (let i = 0; i < cameras.length; i++) {
+                            let marker = new google.maps.Marker({
+                                    position: new google.maps.LatLng(cameras[i].latitude, cameras[i].longitude),
+                                    map: map,
+                                });
+                                markerList[cameras[i].id] = marker;
+                        }
                     },
-                    success : function(res) {
-                        console.log("Got Markers")
+                    error: function(response) {
+                        console.log(response);
                     }
                 });
-               var len = res.length;
-               for(var i = 0; i < len; i++) {
-                   if(markerList.hasOwnProperty(res[i].id)) {
-                       markerList[res[i].id].setPosition(new google.maps.LatLng(res[i].latitude, res[i].longitude));
-                   } else {
-                       var marker = new google.maps.Marker({
-                           position: new google.maps.LatLng(res[i].latitude, res[i].longitude),
-                            map: map
-                       });
-                       markerList[res[i].id] = marker;
-       }
-   }
-   window.setTimeout(getMarkers, INTERVAL)
             }
-            window.onload = function() {
-                initMap();
-                getMarkers();
-            }
+            window.setTimeout(getMarkers, interval);
         </script>
 
     </head>
