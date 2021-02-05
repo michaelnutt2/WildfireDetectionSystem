@@ -80,8 +80,20 @@
     <body>
         <h1>Wildfire Detection App</h1>
         <p>Wildfire detection powered by the wonderful magic of Machine Learning</p>
-        <h3>Placeholder for banner notification for fire/no fire notification, will need to be styled with CSS for banner</h3>
-    <form action="{% url 'registration' %}">
+        
+        <style>
+            h2  {background: red; text-align: center}
+        </style>
+
+        {% for camera in cameras %}
+            {% if camera["fire_detected"] %}
+                <div class="header">
+                    <h2>There is a fire in the area!</h2>
+                </div>
+            {% endif %}
+        {% endfor %}
+        
+        <form action="{% url 'registration' %}">
         <p>Register e-mail and address to receive notification when fire is near.</p>
         <input type="submit" value="Register">
     </form>
