@@ -53,8 +53,19 @@
                             let marker = new google.maps.Marker({
                                     position: new google.maps.LatLng(cameras[i].latitude, cameras[i].longitude),
                                     map: map,
+                                    icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
                                 });
+                                if(cameras[i].fire_detected){
+                                    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+                                }
                                 markerList[cameras[i].id] = marker;
+
+                                // Show marker information
+                                var infowindow = new google.maps.InfoWindow({
+                                    content:"Camera " + cameras[i].id.toString()
+                                  });
+                                  
+                                  infowindow.open(map,marker);
                         }
                     },
                     error: function(response) {
