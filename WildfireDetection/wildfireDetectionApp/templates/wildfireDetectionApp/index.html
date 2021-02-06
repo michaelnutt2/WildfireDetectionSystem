@@ -49,31 +49,47 @@
                     url: "{% url 'markers' %}",
                     success: function (response) {
                         let cameras = JSON.parse(response.cameras)
+                        let fires = [false, false, false, false, false]
+                        let header = document.getElementById('header');
+
                         for (let i = 0; i < cameras.length; i++) {
-                            let marker = new google.maps.Marker({
+                            var marker;
+                            if(cameras[i].id in markerList){
+                                if(cameras[i].fire_detected){
+                                    markerList[cameras[i].id].setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+                                    fires[i] = true;
+                                } else {
+                                    markerList[cameras[i].id].setIcon('https://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+                                    fires[i] = false;
+                                }
+                            } else {
+                                marker = new google.maps.Marker({
                                     position: new google.maps.LatLng(cameras[i].latitude, cameras[i].longitude),
                                     map: map,
                                     icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
                                 });
-                                if(cameras[i].fire_detected){
-                                    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
-                                }
                                 markerList[cameras[i].id] = marker;
+                            }
 
-                                // Show marker information
-                                var infowindow = new google.maps.InfoWindow({
-                                    content:"Camera " + cameras[i].id.toString()
-                                  });
-                                  
-                                  infowindow.open(map,marker);
+                            // Show marker information
+                            var infowindow = new google.maps.InfoWindow({
+                                content:"Camera " + cameras[i].id.toString()
+                              });
+
+                              infowindow.open(map,marker);
+                        }
+                        if(fires.includes(true)) {
+                            header.style.display = 'block';
+                        } else {
+                            header.style.display = 'none';
                         }
                     },
                     error: function(response) {
                         console.log(response);
                     }
                 });
+                window.setTimeout(getMarkers, interval);
             }
-            window.setTimeout(getMarkers, interval);
         </script>
 
     </head>
@@ -82,17 +98,15 @@
         <p>Wildfire detection powered by the wonderful magic of Machine Learning</p>
         
         <style>
-            h2  {background: red; text-align: center}
+            h2  {background: #ff0000; text-align: center}
+            #header {
+                display: none;
+            }
         </style>
+        <div class="header" id="header">
+            <h2>There is a fire in the area!</h2>
+        </div>
 
-        {% for camera in cameras %}
-            {% if camera["fire_detected"] %}
-                <div class="header">
-                    <h2>There is a fire in the area!</h2>
-                </div>
-            {% endif %}
-        {% endfor %}
-        
         <form action="{% url 'registration' %}">
         <p>Register e-mail and address to receive notification when fire is near.</p>
         <input type="submit" value="Register">
