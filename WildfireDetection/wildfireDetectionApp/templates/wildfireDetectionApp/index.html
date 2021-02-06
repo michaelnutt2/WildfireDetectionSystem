@@ -11,7 +11,7 @@
             /* Set the size of the div element that will show the map */
             #map {
                 height: 800px;
-                width: 80%;
+                width: 100%;
             }
         </style>
         <script>
@@ -28,7 +28,7 @@
                 map = new google.maps.Map(
                     document.getElementById('map'), {
                         center: discoPark,
-                        zoom: 16,
+                        zoom: 14,
                         mapTypeId: 'terrain',
                         styles: [
                             {
@@ -51,22 +51,27 @@
                         let cameras = JSON.parse(response.cameras)
                         let fires = [false, false, false, false, false]
                         let header = document.getElementById('header');
+                        var marker;
+                        let blue = '{% static 'markers/blue-dot.png' %}';
+                        let red = '{% static 'markers/red-dot.png' %}';
+                        var color;
 
                         for (let i = 0; i < cameras.length; i++) {
-                            var marker;
-                            if(cameras[i].id in markerList){
-                                if(cameras[i].fire_detected){
-                                    markerList[cameras[i].id].setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
-                                    fires[i] = true;
-                                } else {
-                                    markerList[cameras[i].id].setIcon('https://maps.google.com/mapfiles/ms/icons/blue-dot.png')
-                                    fires[i] = false;
-                                }
+
+                            if(cameras[i].fire_detected) {
+                                color = red;
+                                fires[i] = true;
+                            } else {
+                                color = blue;
+                                fires[i] = false;
+                            }
+                            if(cameras[i].id in markerList) {
+                                markerList[cameras[i].id].setIcon(color);
                             } else {
                                 marker = new google.maps.Marker({
                                     position: new google.maps.LatLng(cameras[i].latitude, cameras[i].longitude),
                                     map: map,
-                                    icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                                    icon: color
                                 });
                                 markerList[cameras[i].id] = marker;
                             }
