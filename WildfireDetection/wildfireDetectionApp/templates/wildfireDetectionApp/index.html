@@ -371,26 +371,37 @@
                  success: function (response) {
                      //predict()
                      let cameras = JSON.parse(response.cameras)
+                     let fires = [false, false, false, false, false]
+                     let header = document.getElementById('header');
+                     var marker;
+                     let blue = '{% static 'markers/blue-dot.png' %}';
+                     let red = '{% static 'markers/red-dot.png' %}';
+                     var color;
+
                      for (let i = 0; i < cameras.length; i++) {
-                         icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-                         if(cameras[i].fire_detected){
-                            icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-                         }else{
-                             icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                         if(cameras[i].fire_detected) {
+                             color = red;
+                             fires[i] = true;
+                         } else {
+                             color = blue;
+                             fires[i] = false;
                          }
-                         let marker = new google.maps.Marker({
+                         if(cameras[i].id in markerList) {
+                             markerList[cameras[i].id].setIcon(color);
+                         } else {
+                             marker = new google.maps.Marker({
                                  position: new google.maps.LatLng(cameras[i].latitude, cameras[i].longitude),
                                  map: map,
-                                 icon: icon
+                                 icon: color
                              });
                              markerList[cameras[i].id] = marker;
+                         }
                      }
-                     var base =  "/Users/Araib/Desktop/New Folder With Items/Projects/Masters/Projects/ai_softwaredev/wildfire_detection/wildfiredetection/WildfireDetectionSystem/WildfireDetection/wildfireDetectionApp/static/"
-                     var video1 = base + "video.mp4"
-                     var video2 = base + "video0.mp4"
-                     var video3 = base + "video1.mp4"
-                     var video4 = base + "video2.mp4"
-                     var video5 = base + "video3.mp4"
+                     let video1 = '{% static 'media/video.mp4' %}'
+                     let video2 = '{% static 'media/video0.mp4' %}'
+                     let video3 = '{% static 'media/video1.mp4' %}'
+                     let video4 = '{% static 'media/video2.mp4' %}'
+                     let video5 = '{% static 'media/video3.mp4' %}'
                      
                     // predict("video.mp4,video0.mp4,video1.mp4", "status_1")
                      predict(video1, "0")
@@ -449,7 +460,15 @@
    <body>
       <h1>Wildfire Detection App</h1>
       <p>Wildfire detection powered by the wonderful magic of Machine Learning</p>
-      <h3>Placeholder for banner notification for fire/no fire notification, will need to be styled with CSS for banner</h3>
+      <style>
+          h2 {background: #ff0000; text-align: center}
+          #header {
+              display: none;
+          }
+      </style>
+      <div class="header" id="header">
+          <h2>There is a fire in the area!</h2>
+      </div>
       <form action="{% url 'registration' %}">
          <p>Register e-mail and address to receive notification when fire is near.</p>
          <input type="submit" value="Register">
