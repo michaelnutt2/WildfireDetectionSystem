@@ -14,6 +14,9 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('user_registration/', views.user_registration, name='registration'),
+    path('predict/', views.predict, name='predict'),
     path('confirmation/', views.confirmation, name='confirmation'),
-    url(r'ajax/markers/', never_cache(views.markers), name='markers')
+    url(r'ajax/markers/', never_cache(views.markers), name='markers'),
+    url(r'ajax/frames/$', never_cache(views.frames), name='frames'),
+    url(r'ajax/updateFireTracker/', never_cache(views.updateFireTracker), name='updateFireTracker')
 ] + staticfiles_urlpatterns()
