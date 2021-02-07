@@ -1,6 +1,6 @@
 window.onload = function() {
     initMap();
-    getMarkers();
+    //getMarkers();
 };
 
 var map;
