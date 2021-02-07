@@ -1,126 +1,525 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en" xmlns="http://www.w3.org/1999/html">
-    <head>
-        <meta charset="utf-8">
-        <title>Wildfire Detection using AI</title>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcvinihrIS9FqJTr587Kcmy5zGzQHOJ5U&libraries=drawing,geometry"></script>
-{#        <script type="text/javascript" src="{% static 'js/map.js' %}"></script>#}
-        <style type="text/css">
-            /* Set the size of the div element that will show the map */
-            #map {
-                height: 800px;
-                width: 100%;
-            }
-        </style>
-        <script>
-            window.onload = function() {
-                initMap();
-                getMarkers();
-            }
-            let map;
-            let discoPark = {lat: 33.2539, lng: -97.1528};
-            let markerList = {};
-            let interval = 10000;
+   <head>
+      <meta charset="utf-8">
+      <title>Wildfire Detection using AI</title>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcvinihrIS9FqJTr587Kcmy5zGzQHOJ5U&libraries=drawing,geometry"></script>
+      {#        <script type="text/javascript" src="{% static 'js/map.js' %}"></script>#}
+      <style type="text/css">
+         /* Set the size of the div element that will show the map */
+         #map {
+         height: 400px;
+         width: 100%;
+         }
+         .container{
+      margin: 20px auto;
+      width: 700px;
+      height:200px;
+      display:grid;
+      grid-template-columns: 200px 200px;
+      grid-row: auto auto;
+      grid-column-gap: 150px;
+      grid-row-gap: 50px;
+      padding-top: 20px;
+      padding-right: 20px;
+      padding-bottom: 20px;
+      padding-left: 20px;
+      }
+      .box{
+      border-radius: 25px;
+      width:300px;
+      height:250px;
+      background-color:#eaeaea;
+      margin: auto;
+      }
+      .center { border-radius: 25px; margin: 0 auto; width: 300px; display: block;}
+     
+      </style>
+      <script>
+         window.onload = function() {
+             initMap();
+             getMarkers();
+            
+         }
+         let map;
+         let discoPark = {lat: 33.2539, lng: -97.1528};
+         let markerList = {};
+         let interval = 10000;
+         
+         function initMap() {
+             map = new google.maps.Map(
+                 document.getElementById('map'), {
+                     center: discoPark,
+                     zoom: 12,
+                     styles: [
+         {
+         "elementType": "geometry",
+         "stylers": [
+         {
+         "color": "#212121"
+         }
+         ]
+         },
+         {
+         "elementType": "labels.icon",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "elementType": "labels.text.fill",
+         "stylers": [
+         {
+         "color": "#757575"
+         }
+         ]
+         },
+         {
+         "elementType": "labels.text.stroke",
+         "stylers": [
+         {
+         "color": "#212121"
+         }
+         ]
+         },
+         {
+         "featureType": "administrative",
+         "elementType": "geometry",
+         "stylers": [
+         {
+         "color": "#757575"
+         },
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "administrative.country",
+         "elementType": "labels.text.fill",
+         "stylers": [
+         {
+         "color": "#9e9e9e"
+         }
+         ]
+         },
+         {
+         "featureType": "administrative.land_parcel",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "administrative.locality",
+         "elementType": "labels.text.fill",
+         "stylers": [
+         {
+         "color": "#bdbdbd"
+         }
+         ]
+         },
+         {
+         "featureType": "administrative.neighborhood",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "landscape.man_made",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "landscape.natural",
+         "stylers": [
+         {
+         "visibility": "simplified"
+         }
+         ]
+         },
+         {
+         "featureType": "landscape.natural.landcover",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "landscape.natural.terrain",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "poi",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "poi",
+         "elementType": "labels.text.fill",
+         "stylers": [
+         {
+         "color": "#757575"
+         }
+         ]
+         },
+         {
+         "featureType": "poi.park",
+         "stylers": [
+         {
+         "visibility": "on"
+         }
+         ]
+         },
+         {
+         "featureType": "poi.park",
+         "elementType": "geometry",
+         "stylers": [
+         {
+         "color": "#27ae60"
+         }
+         ]
+         },
+         {
+         "featureType": "poi.park",
+         "elementType": "labels.text.fill",
+         "stylers": [
+         {
+         "color": "#616161"
+         }
+         ]
+         },
+         {
+         "featureType": "poi.park",
+         "elementType": "labels.text.stroke",
+         "stylers": [
+         {
+         "color": "#1b1b1b"
+         }
+         ]
+         },
+         {
+         "featureType": "road",
+         "elementType": "geometry.fill",
+         "stylers": [
+         {
+         "color": "#2c2c2c"
+         }
+         ]
+         },
+         {
+         "featureType": "road",
+         "elementType": "labels",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "road",
+         "elementType": "labels.icon",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "road",
+         "elementType": "labels.text.fill",
+         "stylers": [
+         {
+         "color": "#8a8a8a"
+         }
+         ]
+         },
+         {
+         "featureType": "road.arterial",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "road.arterial",
+         "elementType": "geometry",
+         "stylers": [
+         {
+         "color": "#373737"
+         }
+         ]
+         },
+         {
+         "featureType": "road.highway",
+         "elementType": "geometry",
+         "stylers": [
+         {
+         "color": "#3c3c3c"
+         }
+         ]
+         },
+         {
+         "featureType": "road.highway",
+         "elementType": "labels",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "road.highway.controlled_access",
+         "elementType": "geometry",
+         "stylers": [
+         {
+         "color": "#4e4e4e"
+         }
+         ]
+         },
+         {
+         "featureType": "road.local",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "road.local",
+         "elementType": "labels.text.fill",
+         "stylers": [
+         {
+         "color": "#616161"
+         }
+         ]
+         },
+         {
+         "featureType": "transit",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "transit",
+         "elementType": "labels.text.fill",
+         "stylers": [
+         {
+         "color": "#757575"
+         }
+         ]
+         },
+         {
+         "featureType": "water",
+         "elementType": "geometry",
+         "stylers": [
+         {
+         "color": "#000000"
+         }
+         ]
+         },
+         {
+         "featureType": "water",
+         "elementType": "labels.text",
+         "stylers": [
+         {
+         "visibility": "off"
+         }
+         ]
+         },
+         {
+         "featureType": "water",
+         "elementType": "labels.text.fill",
+         "stylers": [
+         {
+         "color": "#3d3d3d"
+         }
+         ]
+         }
+         ],
+                     disableDefaultUI: true
+                 }
+             )
+         }
+         function getMarkers(){
+             console.log("printURL")
+             console.log("{% url 'markers' %}")
+             $.ajax({
+                 type: 'GET',
+                 url: "{% url 'markers' %}",
+                 success: function (response) {
+                     //predict()
+                     let cameras = JSON.parse(response.cameras)
+                     let fires = [false, false, false, false, false]
+                     let header = document.getElementById('header');
+                     var marker;
+                     let blue = '{% static 'markers/blue-dot.png' %}';
+                     let red = '{% static 'markers/red-dot.png' %}';
+                     var color;
 
-            function initMap() {
-                map = new google.maps.Map(
-                    document.getElementById('map'), {
-                        center: discoPark,
-                        zoom: 14,
-                        mapTypeId: 'terrain',
-                        styles: [
-                            {
-                                "featureType": "poi",
-                                "elementType": "all",
-                                "stylers": [
-                                    { "visibility": "off"}
-                                ]
-                            }
-                        ],
-                        disableDefaultUI: true
-                    }
-                )
-            }
-            function getMarkers(){
-                $.ajax({
-                    type: 'GET',
-                    url: "{% url 'markers' %}",
-                    success: function (response) {
-                        let cameras = JSON.parse(response.cameras)
-                        let fires = [false, false, false, false, false]
-                        let header = document.getElementById('header');
-                        var marker;
-                        let blue = '{% static 'markers/blue-dot.png' %}';
-                        let red = '{% static 'markers/red-dot.png' %}';
-                        var color;
-
-                        for (let i = 0; i < cameras.length; i++) {
-
-                            if(cameras[i].fire_detected) {
-                                color = red;
-                                fires[i] = true;
-                            } else {
-                                color = blue;
-                                fires[i] = false;
-                            }
-                            if(cameras[i].id in markerList) {
-                                markerList[cameras[i].id].setIcon(color);
-                            } else {
-                                marker = new google.maps.Marker({
-                                    position: new google.maps.LatLng(cameras[i].latitude, cameras[i].longitude),
-                                    map: map,
-                                    icon: color
-                                });
-                                markerList[cameras[i].id] = marker;
-                            }
-
-                            // Show marker information
-                            var infowindow = new google.maps.InfoWindow({
-                                content:"Camera " + cameras[i].id.toString()
-                              });
-
-                              infowindow.open(map,marker);
-                        }
-                        if(fires.includes(true)) {
-                            header.style.display = 'block';
-                        } else {
-                            header.style.display = 'none';
-                        }
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
-                });
-                window.setTimeout(getMarkers, interval);
-            }
-        </script>
-
-    </head>
-    <body>
-        <h1>Wildfire Detection App</h1>
-        <p>Wildfire detection powered by the wonderful magic of Machine Learning</p>
-        
-        <style>
-            h2  {background: #ff0000; text-align: center}
-            #header {
-                display: none;
-            }
-        </style>
-        <div class="header" id="header">
-            <h2>There is a fire in the area!</h2>
-        </div>
-
-        <form action="{% url 'registration' %}">
-        <p>Register e-mail and address to receive notification when fire is near.</p>
-        <input type="submit" value="Register">
-    </form>
-    <div class="row">
-        <div class="column map">
-            <div id="map"/>
-            <div id="floating-panel"/>
-        </div>
-    </div>
-    </body>
+                     for (let i = 0; i < cameras.length; i++) {
+                         if(cameras[i].fire_detected) {
+                             color = red;
+                             fires[i] = true;
+                         } else {
+                             color = blue;
+                             fires[i] = false;
+                         }
+                         if(cameras[i].id in markerList) {
+                             markerList[cameras[i].id].setIcon(color);
+                         } else {
+                             marker = new google.maps.Marker({
+                                 position: new google.maps.LatLng(cameras[i].latitude, cameras[i].longitude),
+                                 map: map,
+                                 icon: color
+                             });
+                             markerList[cameras[i].id] = marker;
+                         }
+                     }
+                     let video1 = '{% static 'media/video.mp4' %}'
+                     let video2 = '{% static 'media/video0.mp4' %}'
+                     let video3 = '{% static 'media/video1.mp4' %}'
+                     let video4 = '{% static 'media/video2.mp4' %}'
+                     let video5 = '{% static 'media/video3.mp4' %}'
+                     
+                    // predict("video.mp4,video0.mp4,video1.mp4", "status_1")
+                     predict(video1, "0")
+                     predict(video2, "1")
+                     predict(video3, "2")
+                     predict(video4, "3")
+                     predict(video5, "4")
+                     
+                 },
+                 error: function(response) {
+                     console.log(response);
+                 }
+             });
+         }
+         async function predict(video, viewId){
+            $.ajax({
+                type: "GET",
+                url: "ajax/frames?video=" + video + "&id=" +viewId,
+                success: function (response) {
+                     console.log(response)
+                     var result = response.data
+                     var id = parseInt(viewId, 0);
+                     var fire = response.fire
+                     if(fire){
+                        markerList[id].setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png")
+                     }else {
+                        markerList[id].setIcon("http://maps.google.com/mapfiles/ms/icons/blue-dot.png")
+                   
+                     }
+                     document.getElementById(viewId).innerHTML = result;
+                     
+                 },
+                 error: function(response) {
+                     console.log(response);
+                 }
+            });
+         }
+         function updateFireTracker(id){
+             console.log("{% url 'updateFireTracker' %}")
+            $.ajax({
+                type: "POST",
+                url: "{% url 'updateFireTracker' %}",
+                data: {'id': true},
+                success: function (response) {
+                     console.log(response)
+                 },
+                 error: function(response) {
+                     console.log(response);
+                 }
+            });
+         }
+         //window.setTimeout(getMarkers, interval);
+         
+      </script>
+   </head>
+   <body>
+      <h1>Wildfire Detection App</h1>
+      <p>Wildfire detection powered by the wonderful magic of Machine Learning</p>
+      <style>
+          h2 {background: #ff0000; text-align: center}
+          #header {
+              display: none;
+          }
+      </style>
+      <div class="header" id="header">
+          <h2>There is a fire in the area!</h2>
+      </div>
+      <form action="{% url 'registration' %}">
+         <p>Register e-mail and address to receive notification when fire is near.</p>
+         <input type="submit" value="Register">
+      </form>
+      <div class="row">
+      <div class="column map">
+      <div id="map"/>
+         <div id="floating-panel"/>
+         </div>
+      </div>
+      <div>
+          <h1>Camera Feeds:</h1>
+          <div class="container">
+            <div class="box" >
+                <h3>Camera 1:</h3>
+               <video class="center" name='demo'  controls autoplay loop >
+                  <source src="{% static 'video.mp4' %}" type="video/mp4"></source>
+               </video>
+               <p id="0"></p>
+               
+            </div>
+            <div class="box" >
+                <h3>Camera 2:</h3>
+               <video class="center" name='demo'  controls autoplay loop >
+                  <source src="{% static 'video0.mp4' %}" type="video/mp4"></source>
+               </video>
+               <p id="1"></p>
+            </div>
+            <div class="box" >
+                <h3>Camera 3:</h3>
+               <video class="center" name='demo'  controls autoplay loop >
+                  <source src="{% static 'video1.mp4' %}" type="video/mp4"></source>
+               </video>
+               <p id="2"></p>
+            </div>
+            <div class="box" >
+                <h3>Camera 4:</h3>
+               <video class="center" name='demo'  controls autoplay loop >
+                  <source src="{% static 'video2.mp4' %}" type="video/mp4"></source>
+               </video>
+               <p id="3"></p>
+            </div>
+            <div class="box" >
+                <h3>Camera 5:</h3>
+                <video class="center" name='demo'  controls autoplay loop >
+                   <source src="{% static 'video3.mp4' %}" type="video/mp4"></source>
+                </video>
+                <p id="4"></p>
+             </div>
+            
+         </div>
+      </div>
+   </body>
 </html>
