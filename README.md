@@ -1,43 +1,44 @@
 # WildfireDetectionSystem
-Machine learning wildfire detection web app using Django for front end and PyTorch as the model generator.
+
+##
 
 ## Machine learning Module
-The folder contians a working machine learning project that is able to detect "fire", "no-fire" and "start-fire" in a mp4 video. I supplied the model with an input video [Input Video](https://github.com/AraibKarim/WildfireDetectionSystem/blob/main/machine%20learning/inputvideo/video.mp4) and it was able to detect fire and also, add annotation on the video. Output: [Output](https://github.com/AraibKarim/WildfireDetectionSystem/blob/main/machine%20learning/outputvideo/video.mp4)
+The folder contians a working machine learning project that is able to detect "fire", "no-fire" and "start-fire" in a mp4 video. The module is being used as backend service on a Django server to process multiple video at the same time. The module can also be used for Live-video feed.
 
 ### Setup 
 
 Mac Setup below but it should also work in Linux, Ubuntu.
 
-#### Requirements:
+#### Requirements & Setup:
 
-* Setup Python virtual environment [Link](https://gist.github.com/pandafulmanda/730a9355e088a9970b18275cb9eadef3)
+##### Machine learning module
+* Download the project
 * Python 3.6.12 is required
-* h5py<3.0.0 is required:  ``` pip install 'h5py<3.0.0' ```
-* TKLinker must be setup with Python as the project requires Python as a framework. IF you have problems with TKlinker, run the commands in the link: [Link](https://stackoverflow.com/questions/59987762/python-tkinter-modulenotfounderror-no-module-named-tkinter)
-* I was able to create the model but it is over 100mb. So download the file [here](https://drive.google.com/file/d/1rIjt6ja20NmBU8c1Glw4wHxKIK42wHKo/view) and put model under the folder: 'machinelearning/model-saves/Inception_based/'
-* The dataset can be downloaded here from the file: 'machinelearning/setup/setup_dataset.py' but not required as I was able to train the model.
-
-#### Install imports
-
+* Setup Python virtual environment [Link](https://gist.github.com/pandafulmanda/730a9355e088a9970b18275cb9eadef3)
+* Go into the machine_learning module directory
+* Install the all the requirements:
 ``` pip install -r requirements.txt ```
+* h5py<3.0.0 is required:  
+``` pip install 'h5py<3.0.0' ```
+* If there tkinter error, please use tkinter as backend setup with Python as the project requires Python as a framework. IF you have problems with tkinter, run the commands in the link: [Link](https://stackoverflow.com/questions/59987762/python-tkinter-modulenotfounderror-no-module-named-tkinter)
+* The model file is not included in the project and can be downloaded [here](https://drive.google.com/file/d/1rIjt6ja20NmBU8c1Glw4wHxKIK42wHKo/view). Place model under the folder: 'machinelearning/model-saves/Inception_based/'
 
-On root, run the above command to install all libraries.
+##### Django Server
+* install the latest version of Django.
+* Go back to the root folder and install all the requirement: mysqlclient -> 
 
-### Predict
+``` pip install mysqlclient ```
 
-Run the following command from the root:
+### Start the Project:
 
-``` Python plauncher.py video  -in ../machinelearning/inputvideo/video.mp4 -out ../machinelearning/outputvideo/video.mp4 -model ../machinelearning/model-saves/Inception_based/best_trained_save.h5 ```
+#### input videos.
+* The project already contains sample videos under ``` WildfireDetectionApp/static folder ```. You can replace these videos with your own input videos and update the same videos for display in ``` index.html ```
+* change the videos links to your directory in ``` view.py ``` file under the WildfireDetectionApp folder.
 
-The above command will take an input video and output a video with prediction and annotations.
+#### Run the project.
 
-### Train
-If you want to train model with any other dataset:
+On root folder, call the following command to start the server:
+``` python manage.py runserver ```
 
-* Download any of the datasets in the file: 'machinelearning/setup/setup_dataset.py'
-* Place under the folder: 'machinelearning/setup/dataset/'
-* run the command: ``` python launcher.py train  -data ../machinelearning/setup/datasets/test/  -prop 0.5  -freeze true ```
-
-Follow any missing commands from the original git project
-
+Once the server start, It will launch the home (index.html). In the command-line, you can view the multiple videos being processed and the model giving out prediction for each frame.
 
