@@ -1,9 +1,7 @@
 # WildfireDetectionSystem
 
-##
-
 ## Machine learning Module
-The folder contians a working machine learning project that is able to detect "fire", "no-fire" and "start-fire" in a mp4 video. The module is being used as backend service on a Django server to process multiple video at the same time. The module can also be used for Live-video feed.
+The folder contains a working machine learning project that is able to detect "fire", "no-fire" and "start-fire" in a mp4 video. The module is being used as backend service on a Django server to process multiple video at the same time. The module can also be used for Live-video feed.
 
 ### Setup 
 
@@ -41,4 +39,5 @@ On root folder, call the following command to start the server:
 ``` python manage.py runserver ```
 
 Once the server start, It will launch the home (index.html). In the command-line, you can view the multiple videos being processed and the model giving out prediction for each frame.
+
 
