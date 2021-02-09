@@ -29,6 +29,10 @@ Mac Setup below but it should also work in Linux, Ubuntu.
 
 ### Start the Project:
 
+On the root folder, start the project through the following command:
+
+``` python manage.py runserver ```
+
 #### input videos.
 * The project already contains sample videos under ``` WildfireDetectionApp/static folder ```. You can replace these videos with your own input videos and update the same videos for display in ``` index.html ```
 * change the videos links to your directory in ``` view.py ``` file under the WildfireDetectionApp folder.
