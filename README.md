@@ -29,18 +29,11 @@ Mac Setup below but it should also work in Linux, Ubuntu.
 
 ### Start the Project:
 
-On the root folder, start the project through the following command:
-
-``` python manage.py runserver ```
+5 input videos are displayed in the ``` index.html ``` file. These videos are used for wildfire detection and the URLs can of the videos can be viewed under ``` view.py file ```
 
 #### input videos.
 * The project already contains sample videos under ``` WildfireDetectionApp/static folder ```. You can replace these videos with your own input videos and update the same videos for display in ``` index.html ```
 * change the videos links to your directory in ``` view.py ``` file under the WildfireDetectionApp folder.
-
-#### Run the project.
-
-On root folder, call the following command to start the server:
-``` python manage.py runserver ```
 
 Once the server start, It will launch the home (index.html). In the command-line, you can view the multiple videos being processed and the model giving out prediction for each frame.
 
