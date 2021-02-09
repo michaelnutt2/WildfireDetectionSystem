@@ -27,13 +27,18 @@ Mac Setup below but it should also work in Linux, Ubuntu.
 
 ``` pip install mysqlclient ```
 
-### Start the Project:
+### Run the Project:
 
 5 input videos are displayed in the ``` index.html ``` file. These videos are used for wildfire detection and the URLs can of the videos can be viewed under ``` view.py file ```
 
 #### input videos.
 * The project already contains sample videos under ``` WildfireDetectionApp/static folder ```. You can replace these videos with your own input videos and update the same videos for display in ``` index.html ```
 * change the videos links to your directory in ``` view.py ``` file under the WildfireDetectionApp folder.
+
+#### Start the server
+Under the root folder, use the command line to start the project.
+
+``` python manage.py runserver ```
 
 Once the server start, It will launch the home (index.html). In the command-line, you can view the multiple videos being processed and the model giving out prediction for each frame.
 
