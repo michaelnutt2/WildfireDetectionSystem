@@ -1,5 +1,10 @@
 # Wildfire Detection System
 
+
+## Demo
+
+![Alt Text](https://github.com/michaelnutt2/WildfireDetectionSystem/blob/main/demo.gif)
+
 ## Machine learning Module
 The folder contains a working machine learning project that is able to detect "fire", "no-fire" and "start-fire" in a mp4 video. The module is being used as backend service on a Django server to process multiple video at the same time. The module can also be used for Live-video feed.
 
